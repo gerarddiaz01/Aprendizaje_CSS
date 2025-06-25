@@ -300,6 +300,47 @@ p {
 
 -----
 
+#### `float`
+
+  * [cite\_start]**Uso / Explicación:** La propiedad `float` se utilizaba tradicionalmente para envolver texto alrededor de imágenes, pero también se ha usado para crear diseños de columnas simples[cite: 118]. [cite\_start]Mueve un elemento a la izquierda o derecha de su contenedor, permitiendo que el texto y los elementos en línea fluyan alrededor de él[cite: 119].
+  * **Comportamiento:**
+      * Un elemento flotante es sacado del flujo normal del documento, pero aún afecta el layout de los elementos no flotantes que lo rodean.
+      * El elemento "flotará" tan a la izquierda o a la derecha como sea posible dentro de su contenedor.
+      * [cite\_start]Es importante usar `clear` para evitar que los elementos siguientes floten junto a él cuando no se desea[cite: 120].
+
+**Sintaxis:** `float: left;` o `float: right;`. También `float: none;` (por defecto) e `float: inherit;`.
+
+#### Ejemplo de `float`
+
+```html
+<div class="container-float">
+  <img src="https://via.placeholder.com/100" alt="Imagen flotante" class="float-image">
+  <p>Este es un párrafo de texto que fluirá alrededor de la imagen flotante. El texto continuará ajustándose al espacio disponible junto a la imagen. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  <div class="clear"></div> <p>Este párrafo está debajo de la imagen flotante gracias al "clear".</p>
+</div>
+```
+
+```css
+.container-float {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.float-image {
+  float: left; /* La imagen flota a la izquierda */
+  margin-right: 15px; /* Espacio a la derecha de la imagen */
+  margin-bottom: 10px;
+}
+
+.clear {
+  clear: both; /* Limpia los floats tanto a la izquierda como a la derecha */
+}
+```
+
+-----
+
+
 #### `position: sticky;`
 
   * **Uso / Explicación:** Es una combinación de `relative` y `fixed`. Un elemento `sticky` se comporta como `relative` hasta que alcanza un determinado umbral de desplazamiento en el viewport, momento en el que se "pega" (se comporta como `fixed`) hasta que su contenedor padre deja la pantalla.
@@ -478,4 +519,62 @@ button {
   background-color: lightblue;
 }
 ```
+
+-----
+
+#### `z-index` (Apilamiento)
+
+  * **Uso / Explicación:** Cuando se modifica la posición de las cajas, puede ocurrir apilamiento entre los diferentes elementos. La propiedad `z-index` establece el nivel de profundidad en el que está un elemento sobre los demás. Permite que un elemento se coloque encima o debajo de otro.
+  * **Comportamiento:**
+      * Se le asigna un número que representa el nivel de profundidad del elemento. Los elementos con un número más alto estarán por encima de otros con un número más bajo.
+      * `z-index` **solo funciona en elementos posicionados** (es decir, aquellos con `position` diferente de `static`: `relative`, `absolute`, `fixed`, o `sticky`). No tiene efecto en elementos con posicionamiento estático.
+
+**Sintaxis:** `z-index: 1;` (puede ser cualquier número entero, positivo o negativo). Un número más alto significa más "arriba".
+
+#### Ejemplo de `z-index`
+
+```html
+<div class="container-z-index">
+  <div class="box z-index-back">Fondo (z-index: 1)</div>
+  <div class="box z-index-front">Frente (z-index: 2)</div>
+</div>
+```
+
+```css
+.container-z-index {
+  position: relative; /* Contenedor para los elementos posicionados */
+  width: 300px;
+  height: 150px;
+  border: 2px solid purple;
+  margin-top: 50px;
+  background-color: #f5f5f5;
+}
+
+.box {
+  width: 150px;
+  height: 100px;
+  position: absolute; /* Para que z-index tenga efecto */
+  text-align: center;
+  line-height: 100px;
+  font-weight: bold;
+  color: white;
+  border: 1px solid black;
+}
+
+.z-index-back {
+  background-color: #FF5733; /* Naranja */
+  top: 20px;
+  left: 20px;
+  z-index: 1; /* Menor z-index */
+}
+
+.z-index-front {
+  background-color: #33C7FF; /* Azul */
+  top: 40px;
+  left: 60px;
+  z-index: 2; /* Mayor z-index, estará encima */
+}
+```
+
+-----
 
