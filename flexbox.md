@@ -193,3 +193,192 @@ La propiedad `z-index` establece el nivel de profundidad en el que un elemento e
   z-index: 5;
 }
 ```
+
+-----
+
+## 📝 Clase 23: Posicionamiento Grid - Capítulo 1
+
+Aqui introducimos el sistema de maquetación CSS Grid, un método moderno para organizar elementos en dos dimensiones, comparándolo con Flexbox y los sistemas de grid tradicionales. Cubre los conceptos fundamentales de Grid, cómo definir la estructura de la cuadrícula con `grid-template-columns` y `grid-template-rows`, el uso de unidades como `fr` y la función `repeat()`, la propiedad `gap` para espaciado, `order` para el orden de los ítems, y la definición de áreas con `grid-template-areas`.
+
+-----
+
+### 1\. Introducción a Display Grid
+
+Grid CSS es un sistema de maquetación más potente que Flexbox, ya que está diseñado para estructuras en dos dimensiones (filas y columnas), a diferencia de Flexbox que se orienta a una sola dimensión. Grid toma la filosofía y muchos de los conceptos de Flexbox.
+
+#### Elementos Fundamentales de Grid
+
+  * **Contenedor (Grid Container)**: El elemento padre que define la cuadrícula o rejilla.
+  * **Ítem (Grid Item)**: Cada uno de los elementos hijos dentro del contenedor Grid.
+  * **Celda (Grid Cell)**: La unidad mínima de la cuadrícula, cada uno de los cuadritos.
+  * **Área (Grid Area)**: Una región o conjunto de celdas dentro de la cuadrícula.
+  * **Banda (Grid Track)**: Una banda horizontal o vertical de celdas de la cuadrícula.
+  * **Línea (Grid Line)**: El separador horizontal o vertical de las celdas de la cuadrícula.
+
+**Ejemplo de Estructura Grid:**
+
+```html
+<div class="grid"> 
+    <div class="item item-1">Item 1</div> 
+    <div class="item item-2">Item 2</div>
+    <div class="item item-3">Item 3</div>
+    <div class="item item-4">Item 4</div>
+</div>
+```
+
+-----
+
+### 2\. `Grid Template Columns` y `Grid Template Rows`
+
+Estas propiedades son la forma principal de definir explícitamente el tamaño de las filas y columnas de una cuadrícula en CSS Grid. Al usar `display: grid;` en un contenedor, estas propiedades permiten establecer las dimensiones de la rejilla.
+
+  * **`grid-template-columns`**: Establece el tamaño (`SIZE`) de cada columna.
+  * **`grid-template-rows`**: Establece el tamaño (`SIZE`) de cada fila.
+
+**Sintaxis y Comportamiento:**
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: 50px 300px; /* Define dos columnas: una de 50px y otra de 300px */
+  grid-template-rows: 200px 75px;    /* Define dos filas: una de 200px y otra de 75px */
+}
+```
+
+Este ejemplo crea una cuadrícula de 4 celdas en total (2 columnas x 2 filas). Es importante que el número de elementos hijos en el HTML se corresponda con la estructura definida. Si hay más ítems de los indicados, los restantes se incluirán sin formato. Si hay menos, solo se ocuparán los ítems implicados. Se pueden utilizar unidades relativas y absolutas.
+
+-----
+
+### 3\. `Fr` y `Repeat`
+
+#### Unidad `fr` (Fracción Restante)
+
+La unidad `fr` (fracción restante) es una unidad especial de Grid que permite distribuir el espacio restante en el contenedor de forma proporcional entre las columnas o filas. Es muy útil para diseños flexibles.
+
+**Ejemplo de `fr`:**
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dos columnas de igual ancho (ocupan la mitad del espacio restante cada una) */
+  grid-template-rows: 2fr 1fr;    /* Dos filas: la primera ocupa el doble que la segunda */
+}
+```
+
+Se pueden combinar diferentes unidades (píxeles, porcentajes, `auto`, `fr`) en las propiedades `grid-template-columns` y `grid-template-rows`.
+
+#### Función `repeat()`
+
+La función `repeat()` se utiliza para evitar la repetición de valores en `grid-template-columns` y `grid-template-rows` cuando se necesitan varias columnas o filas del mismo tamaño.
+
+**Sintaxis:** `repeat(cantidad, tamaño)`
+
+**Ejemplo de `repeat()`:**
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: 100px repeat(4, 50px) 200px; /* Una columna de 100px, 4 de 50px, y una de 200px */
+  grid-template-rows: repeat(2, 1fr 2fr);           /* Se repite el patrón 1fr 2fr dos veces */
+}
+/* Esto es equivalente a: */
+/* grid-template-columns: 100px 50px 50px 50px 50px 200px; */
+/* grid-template-rows: 1fr 2fr 1fr 2fr; */
+```
+
+#### Función `minmax()`
+
+La función `minmax(min, max)` establece un rango de tamaño para una pista (columna o fila). La pista tendrá el tamaño `max`, a menos que el contenedor se redimensione, en cuyo caso el tamaño de la pista podrá disminuir hasta `min`.
+
+**Ejemplo de `minmax()`:**
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(400px, 600px)); /* Dos columnas que serán entre 400px y 600px */
+  grid-template-rows: repeat(2, 1fr);
+  gap: 5px;
+}
+```
+
+-----
+
+### 4\. Propiedad `gap`
+
+La propiedad `gap` (o sus variantes `column-gap` y `row-gap`) permite definir el espacio (huecos o gutters) entre las celdas de la cuadrícula. Esto es una alternativa más apropiada que usar `margin` en los ítems para crear separación.
+
+  * **`column-gap`**: Establece el tamaño de los huecos entre columnas (líneas verticales).
+  * **`row-gap`**: Establece el tamaño de los huecos entre filas (líneas horizontales).
+  * **`gap`**: Es una propiedad abreviada para establecer `row-gap` y `column-gap` al mismo tiempo.
+
+**Sintaxis:**
+
+```css
+.grid {
+  column-gap: 100px; /* 100px de espacio entre columnas */
+  row-gap: 10px;     /* 10px de espacio entre filas */
+}
+/* O la versión shorthand: */
+/* .grid { gap: 10px 100px; } /* gap: row-gap column-gap */
+/* .grid { gap: 10px; }     /* mismo gap para filas y columnas */
+```
+
+-----
+
+### 5\. Propiedad `order`
+
+La propiedad `order` en Grid CSS funciona de manera idéntica a como lo hace en Flexbox. Permite modificar el orden visual de los ítems dentro del contenedor Grid, independientemente de su orden en el código HTML.
+
+  * Por defecto, todos los ítems tienen un `order` de `0`.
+  * Los ítems con un valor `order` más pequeño se colocarán antes, y los que tienen un valor más alto se colocarán después (se admiten números negativos).
+
+**Sintaxis:**
+
+```css
+.item-1 {
+  order: 2;
+}
+.item-2 {
+  order: 1; /* Este ítem aparecerá antes que item-1 */
+}
+```
+
+-----
+
+### 6\. Áreas (Grid Template Areas)
+
+Grid por áreas permite nombrar y posicionar áreas específicas dentro de la cuadrícula, haciendo el diseño más legible y flexible. No es una alternativa a los grids explícitos (definidos por filas y columnas), sino que pueden trabajar conjuntamente.
+
+  * **`grid-template-areas`**: Se usa en el **contenedor padre** para indicar la disposición de las áreas en el grid. Cada texto entre comillas simboliza una fila, y los nombres separados por espacios dentro de las comillas representan las columnas de esa fila.
+  * **`grid-area`**: Se usa en cada **ítem hijo** para indicar a qué área pertenece.
+
+**Sintaxis y Ejemplo:**
+
+```html
+<div class="container">
+  <div class="item item-1"></div> <div class="item item-2"></div> <div class="item item-3"></div> <div class="item item-4"></div> </div>
+```
+
+```css
+.container {
+  display: grid;
+  grid-template-areas: 
+    "head head"  /* Primera fila: dos columnas ocupadas por el área 'head' */
+    "menu main"  /* Segunda fila: 'menu' en la primera columna, 'main' en la segunda */
+    "foot foot"; /* Tercera fila: dos columnas ocupadas por el área 'foot' */
+}
+
+.item-1 { grid-area: head; }
+.item-2 { grid-area: menu; }
+.item-3 { grid-area: main; }
+.item-4 { grid-area: foot; }
+```
+
+**Valores para `grid-template-areas`:**
+
+  * `"nombre_area"`: Crea una fila con una columna que ocupa el área indicada.
+  * `"nombre1 nombre2"`: Crea una fila con dos columnas, cada una con un área diferente.
+  * `"nombre nombre"`: Crea una fila donde un área ocupa múltiples columnas.
+  * `.`: Indica una celda sin nombre (nula) en esa posición.
+
+-----
